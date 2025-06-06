@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DevConnect - Find Top Developers</title>
+    <link rel="stylesheet" href="/static/css/index.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-content">
+                <div class="logo">DevConnect</div>
+                
+                <!-- Desktop Navigation -->
+                <div class="nav-links">
+                    <a href="#" class="nav-link">Find Developers</a>
+                    <a href="../company/post" class="nav-link">New Post</a>
+                    <a href="{% url 'myportfolio:pricing' %}" class="nav-link">Pricing</a>
+                    
+                    <a href="{% url 'myportfolio:company_login' %}" class="btn btn-primary">
+                        <i class="fas fa-building"></i>
+                        Company Login
+                    </a>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <button class="mobile-menu-btn" id="mobileMenuBtn">
+                    <i class="fas fa-bars" id="menuIcon"></i>
+                </button>
+            </div>
+
+            <!-- Mobile Navigation -->
+            <div class="mobile-nav" id="mobileNav">
+                <a href="#" class="mobile-nav-link">Find Developers</a>
+                <a href="#" class="mobile-nav-link">How it Works</a>
+                <a href="{% url 'myportfolio:pricing' %}" class="mobile-nav-link">Pricing</a>
+                <div class="mobile-nav-buttons">
+                    <button class="btn btn-outline mobile-btn">Developer Login</button>
+                    <button class="btn btn-primary mobile-btn">Company Login</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-container">
+            <h1 class="hero-title">
+                <span class="hero-title-white">Find Top </span>
+                <span class="hero-title-blue">Developers</span>
+            </h1>
+            <p class="hero-subtitle">
+                Connect with skilled developers worldwide. Browse portfolios, check technologies, and hire the perfect talent for your next project.
+            </p>
+            <div class="hero-stats">
+                <span id="developerCount">6</span> developers available • Updated in real-time
+            </div>
+        </div>
+    </section>
+
+    <!-- Search and Filters -->
+    <div class="search-filters">
+        <div class="search-container">
+            <!-- Search Bar -->
+            <div class="search-bar-container">
+                <div class="search-input-wrapper">
+                    <i class="fas fa-search search-icon"></i>
+                    <input 
+                        type="text" 
+                        id="searchInput"
+                        placeholder="Search developers by name, skills, or technologies..."
+                        class="search-input"
+                    >
+                </div>
+                <button class="btn btn-outline filter-btn" id="filterBtn">
+                    <i class="fas fa-filter"></i>
+                    Filters
+                </button>
+            </div>
+
+            <!-- Filters Panel -->
+            <div class="filters-panel" id="filtersPanel">
+                <!-- Technologies Filter -->
+                <div class="filter-group">
+                    <h3 class="filter-title">Technologies</h3>
+                    <div class="tech-filters" id="techFilters"></div>
+                </div>
+
+                <!-- Availability Filter -->
+                <div class="filter-group">
+                    <h3 class="filter-title">Availability</h3>
+                    <div class="availability-filters">
+                        <button class="availability-btn" data-status="Available">
+                            <i class="fas fa-clock"></i>
+                            Available
+                        </button>
+                        <button class="availability-btn" data-status="Busy">
+                            <i class="fas fa-clock"></i>
+                            Busy
+                        </button>
+                        <button class="availability-btn" data-status="Unavailable">
+                            <i class="fas fa-clock"></i>
+                            Unavailable
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Clear Filters -->
+                <div class="filter-actions">
+                    <button class="btn btn-secondary" id="clearFilters">Clear All Filters</button>
+                </div>
+            </div>
+
+            <!-- Active Filters Display -->
+            <div class="active-filters" id="activeFilters"></div>
+        </div>
+    </div>
+
+    <!-- Developer Grid -->
+    <section class="developer-grid-section">
+        <div class="grid-container">
+            <!-- Results Header -->
+            <div class="results-header">
+                <h2 class="results-title" id="resultsTitle">6 Developers Found</h2>
+                <div class="results-count" id="resultsCount">Showing 6 results</div>
+            </div>
+
+            <!-- Developer Cards Grid -->
+            <div class="developer-grid" id="developerGrid">
+                <!-- Cards will be populated by JavaScript -->
+            </div>
+
+            <!-- No Results Message -->
+            <div class="no-results" id="noResults" style="display: none;">
+                <div class="no-results-title">No developers found matching your criteria</div>
+                <div class="no-results-subtitle">Try adjusting your search or filters</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <!-- Footer Top -->
+            <div class="footer-grid">
+                <!-- Company Info -->
+                <div class="footer-section">
+                    <div class="footer-logo">
+                        <span class="logo">Dev<span class="highlight">Connect</span></span>
+                    </div>
+                    <p class="footer-description">
+                        Connecting top developers with innovative companies worldwide. Find your next opportunity or perfect hire with DevConnect.
+                    </p>
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="fab fa-linkedin"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-github"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+
+                <!-- Quick Links -->
+                <div class="footer-section">
+                    <h3 class="footer-title">For Developers</h3>
+                    <ul class="footer-links">
+                        <li><a href="../intro">Create Portfolio</a></li>
+                        <li><a href="../companies">Find Projects</a></li>
+                        <li><a href="#">Developer Community</a></li>
+                        <li><a href="#">Skill Assessment</a></li>
+                    </ul>
+                </div>
+
+                <!-- Company Links -->
+                <div class="footer-section">
+                    <h3 class="footer-title">For Companies</h3>
+                    <ul class="footer-links">
+                        <li><a href="../company/post">Post a Job</a></li>
+                        <li><a href="#">Browse Developers</a></li>
+                        <li><a href="#">Recruitment Solutions</a></li>
+                        <li><a href="../pricing">Enterprise Plans</a></li>
+                    </ul>
+                </div>
+
+                <!-- Resources -->
+                <div class="footer-section">
+                    <h3 class="footer-title">Resources</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">Success Stories</a></li>
+                        <li><a href="#">Documentation</a></li>
+                        <li><a href="#">Help Center</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Footer Bottom -->
+            <div class="footer-bottom">
+                <div class="footer-legal">
+                    <span>&copy; 2025 DevConnect. All rights reserved.</span>
+                    <div class="legal-links">
+                        <a href="#">Privacy Policy</a>
+                        <a href="#">Terms of Service</a>
+                        <a href="#">Cookie Policy</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="/static/js/script.js"></script>
+</body>
+</html>

@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ developer.name }} - Developer Portfolio | DevConnect</title>
+    <meta name="description" content="{{ developer.title }} with {{ developer.experience }} of experience">
+    <link rel="stylesheet" href="/static/css/portfolio_detail.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="portfolio-nav">
+        <div class="container">
+            <a href="/" class="nav-logo">
+                Dev<span class="highlight">Connect</span>
+            </a>
+            <a href="/" class="back-button">
+                <i class="fas fa-arrow-left"></i> Back to Search
+            </a>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="portfolio-main">
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="container">
+                <!-- Developer Profile -->
+                <div class="profile-grid">
+                    <!-- Profile Image -->
+                    <div class="profile-image-container">
+                        <img src="{{ developer.avatar }}" 
+                             alt="{{ developer.name }}" 
+                             class="profile-image"
+                             onerror="this.src='/static/images/default-avatar.png'">
+                        <div class="status-dot {{ developer.availability|lower }}"></div>
+                    </div>
+
+                    <!-- Profile Info -->
+                    <div class="profile-content">
+                        <h1 class="profile-name">{{ developer.name }}</h1>
+                        <p class="profile-title">{{ developer.title }}</p>
+                        
+                        <!-- Profile Meta -->
+                        <div class="profile-meta">
+                            <div class="meta-item">
+                                <i class="fas fa-location-dot"></i>
+                                <span>{{ developer.location }}</span>
+                            </div>
+                            <div class="meta-item">
+                                <i class="fas fa-briefcase"></i>
+                                <span>{{ developer.experience }}</span>
+                            </div>
+                            <div class="meta-item {{ developer.availability|lower }}">
+                                <i class="fas fa-circle"></i>
+                                <span>{{ developer.availability }}</span>
+                            </div>
+                        </div>
+
+                        <!-- Quick Stats -->
+                        <div class="quick-stats">
+                            <div class="stat-item">
+                                <div class="stat-value">
+                                    <i class="fas fa-star"></i> {{ developer.rating }}
+                                </div>
+                                <div class="stat-label">Rating</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-value">{{ developer.projects }}</div>
+                                <div class="stat-label">Projects</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-value">{{ developer.hourlyRate }}</div>
+                                <div class="stat-label">Per Hour</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Portfolio Content -->
+        <div class="container">
+            <div class="content-grid">
+                <!-- Main Content -->
+                <div class="content-main">
+                    <!-- About Section -->
+                    <section class="content-section">
+                        <h2 class="section-title">
+                            <i class="fas fa-user"></i> About Me
+                        </h2>
+                        <div class="section-content">
+                            {{ developer.description }}
+                        </div>
+                    </section>
+
+                    <!-- Skills Section -->
+                    <section class="content-section">
+                        <h2 class="section-title">
+                            <i class="fas fa-code"></i> Technologies & Skills
+                        </h2>
+                        <div class="skills-grid">
+                            {% for tech in developer.technologies %}
+                            <div class="skill-card">
+                                <i class="fas fa-check-circle"></i>
+                                <span>{{ tech }}</span>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </section>
+                </div>
+
+                <!-- Sidebar -->
+                <aside class="content-sidebar">
+                    <!-- Contact Card -->
+                    <div class="sidebar-card">
+                        <h3 class="card-title">Contact</h3>
+                        <div class="card-content">
+                            <a href="{{ developer.portfolio }}" 
+                               target="_blank" 
+                               class="contact-link">
+                                <i class="fas fa-globe"></i>
+                                Portfolio Website
+                            </a>
+                            <button class="btn btn-primary" 
+                                    onclick="showContactModal()">
+                                <i class="fas fa-paper-plane"></i>
+                                Send Message
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Availability Card -->
+                    <div class="sidebar-card">
+                        <h3 class="card-title">Availability</h3>
+                        <div class="card-content">
+                            <div class="availability-status {{ developer.availability|lower }}">
+                                <i class="fas fa-circle"></i>
+                                {{ developer.availability }}
+                            </div>
+                            <div class="hourly-rate">
+                                {{ developer.hourlyRate }} per hour
+                            </div>
+                        </div>
+                    </div>
+                </aside>
+            </div>
+        </div>
+    </main>
+
+    <!-- Contact Modal -->
+    <div id="contactModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Contact {{ developer.name }}</h3>
+                <button class="modal-close" onclick="hideContactModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <form id="contactForm" class="contact-form" onsubmit="handleContact(event)">
+                <div class="form-group">
+                    <label for="message">Message</label>
+                    <textarea id="message" 
+                              name="message" 
+                              rows="4" 
+                              required 
+                              placeholder="Write your message here..."></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary btn-full">
+                    <i class="fas fa-paper-plane"></i> Send Message
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="/static/js/portfolio.js"></script>
+</body>
+</html>

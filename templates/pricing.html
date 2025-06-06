@@ -1,0 +1,146 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DevConnect Pricing</title>
+    <link rel="stylesheet" href="{% static 'css/pricing.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="nav-bar">
+        <div class="container">
+            <a href="/" class="nav-logo">
+                Dev<span class="highlight">Connect</span>
+            </a>
+            <a href="/" class="btn-home">
+                <i class="fas fa-home"></i>
+                Back to Home
+            </a>
+        </div>
+    </nav>
+
+    <div class="pricing-page">
+        <!-- Header -->
+        <header class="pricing-header">
+            <h1>Choose a plan that's right for you</h1>
+            <p>We believe DevConnect should be accessible to all companies, no matter the size of your startup.</p>
+        </header>
+
+        <!-- Pricing Table -->
+        <div class="pricing-table">
+            <!-- Basic Plan -->
+            <div class="pricing-card">
+                <div class="card-header">
+                    <h2>Basic plan</h2>
+                    <p>Our most popular plan.</p>
+                </div>
+                <div class="price-tag">
+                    <span class="currency">$</span>
+                    <span class="amount">10</span>
+                </div>
+                <div class="plan-overview">
+                    <ul class="features-list">
+                        <li><i class="check">✓</i> Up to 10 team members</li>
+                        <li><i class="check">✓</i> 20GB storage</li>
+                        <li><i class="check">✓</i> Basic support</li>
+                        <li><i class="check">✓</i> Core features</li>
+                    </ul>
+                </div>
+                <button class="btn-get-started">Get started</button>
+            </div>
+
+            <!-- Business Plan -->
+            <div class="pricing-card featured">
+                <div class="card-header">
+                    <h2>Business plan</h2>
+                    <p>Best for growing teams.</p>
+                </div>
+                <div class="price-tag">
+                    <span class="currency">$</span>
+                    <span class="amount">20</span>
+                </div>
+                <div class="plan-overview">
+                    <ul class="features-list">
+                        <li><i class="check">✓</i> Up to 20 team members</li>
+                        <li><i class="check">✓</i> 40GB storage</li>
+                        <li><i class="check">✓</i> Priority support</li>
+                        <li><i class="check">✓</i> Advanced features</li>
+                    </ul>
+                </div>
+                <button class="btn-get-started">Get started</button>
+            </div>
+
+            <!-- Enterprise Plan -->
+            <div class="pricing-card">
+                <div class="card-header">
+                    <h2>Enterprise plan</h2>
+                    <p>Best for large teams.</p>
+                </div>
+                <div class="price-tag">
+                    <span class="currency">$</span>
+                    <span class="amount">40</span>
+                </div>
+                <div class="plan-overview">
+                    <ul class="features-list">
+                        <li><i class="check">✓</i> Unlimited team members</li>
+                        <li><i class="check">✓</i> Unlimited storage</li>
+                        <li><i class="check">✓</i> 24/7 Priority support</li>
+                        <li><i class="check">✓</i> Advanced features</li>
+                        <li><i class="check">✓</i> Custom solutions</li>
+                    </ul>
+                </div>
+                <button class="btn-get-started">Get started</button>
+            </div>
+        </div>
+
+        <!-- Feature Comparison -->
+        <div class="features-comparison">
+            <table class="features-table">
+                <thead>
+                    <tr>
+                        <th>Overview</th>
+                        <th>Basic</th>
+                        <th>Business</th>
+                        <th>Enterprise</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Basic features</td>
+                        <td><i class="check">✓</i></td>
+                        <td><i class="check">✓</i></td>
+                        <td><i class="check">✓</i></td>
+                    </tr>
+                    <tr>
+                        <td>Users</td>
+                        <td>10</td>
+                        <td>20</td>
+                        <td>Unlimited</td>
+                    </tr>
+                    <tr>
+                        <td>Individual data</td>
+                        <td>20GB</td>
+                        <td>40GB</td>
+                        <td>Unlimited</td>
+                    </tr>
+                    <tr>
+                        <td>Support</td>
+                        <td><i class="check">✓</i></td>
+                        <td><i class="check">✓</i></td>
+                        <td><i class="check">✓</i></td>
+                    </tr>
+                    <tr>
+                        <td>Automated workflows</td>
+                        <td>—</td>
+                        <td><i class="check">✓</i></td>
+                        <td><i class="check">✓</i></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>

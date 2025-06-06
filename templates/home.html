@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio Platform</title>
+    <link rel="stylesheet" href="/static/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="home-body">
+    <!-- Navigation -->
+    <nav class="main-nav">
+        <div class="nav-logo">Portfolio<span>Hub</span></div>
+        <div class="nav-links">
+            <a href="{% url 'myportfolio:home' %}" class="active">Home</a>
+            <a href="{% url 'myportfolio:intro' %}">Create</a>
+            <a href="#portfolios">Explore</a>
+            <a href="#blog">Blog</a>
+            {% if request.session.user_id %}
+                <a href="{% url 'myportfolio:user_profile' %}" class="nav-button">My Profile</a>
+            {% else %}
+                <a href="{% url 'myportfolio:register' %}" class="nav-button">Get Started</a>
+            {% endif %}
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="home-main">
+        <!-- Hero Section -->
+        <section class="hero-section">
+            <div class="hero-content">
+                <div class="badge">
+                    <i class="fas fa-users"></i>
+                    150+ Professionals
+                </div>
+                <h1>Create Your Portfolio<br>Beyond Boundaries</h1>
+                <p class="hero-subtitle">
+                    Simplified Portfolio Creation with<br>
+                    Professional Tools and Templates
+                </p>
+                <a href="{% url 'myportfolio:register' %}" class="cta-button">
+                    Get Started
+                    <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+        </section>
+
+        <!-- Developers Grid -->
+        <section class="developers-section">
+            <h2>Featured Developers</h2>
+            
+            <!-- Search Bar -->
+            <div class="search-section">
+                <div class="search-container">
+                    <input type="text" id="searchInput" placeholder="Search by skills, name, or location...">
+                    <button class="search-btn">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Developers Grid -->
+            <div class="developers-grid" id="developersGrid">
+                <!-- Developer Card 1 -->
+                <div class="developer-card" data-skills="python,django,react" data-location="New York">
+                    <div class="developer-header">
+                        <div class="profile-image">
+                            <img src="/media/profile_pics/person1.jpeg" alt="Profile" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+                            <div class="profile-placeholder" style="display:none">
+                                <i class="fas fa-user"></i>
+                            </div>
+                        </div>
+                        <h3>John Developer</h3>
+                        <p class="developer-title">Full Stack Developer</p>
+                    </div>
+                    <div class="developer-body">
+                        <p class="developer-location">
+                            <i class="fas fa-location-dot"></i> New York, USA
+                        </p>
+                        <div class="skills-list">
+                            <span class="skill-tag">Python</span>
+                            <span class="skill-tag">Django</span>
+                            <span class="skill-tag">React</span>
+                        </div>
+                    </div>
+                    <div class="developer-footer">
+                        <a href="#" class="view-profile">View Portfolio</a>
+                    </div>
+                </div>
+
+                <!-- Developer Card 2 -->
+                <div class="developer-card" data-skills="javascript,vue,node" data-location="London">
+                    <div class="developer-header">
+                        <div class="profile-image">
+                            <img src="/media/profile_pics/person2.jpeg" alt="Profile" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+                            <div class="profile-placeholder" style="display:none">
+                                <i class="fas fa-user"></i>
+                            </div>
+                        </div>
+                        <h3>Sarah Coder</h3>
+                        <p class="developer-title">Frontend Developer</p>
+                    </div>
+                    <div class="developer-body">
+                        <p class="developer-location">
+                            <i class="fas fa-location-dot"></i> London, UK
+                        </p>
+                        <div class="skills-list">
+                            <span class="skill-tag">JavaScript</span>
+                            <span class="skill-tag">Vue.js</span>
+                            <span class="skill-tag">Node.js</span>
+                        </div>
+                    </div>
+                    <div class="developer-footer">
+                        <a href="#" class="view-profile">View Portfolio</a>
+                    </div>
+                </div>
+
+                <!-- Developer Card 3 -->
+                <div class="developer-card" data-skills="javascript,vue,node" data-location="London">
+                    <div class="developer-header">
+                        <div class="profile-image">
+                            <img src="/media/profile_pics/person2.jpeg" alt="Profile" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+                            <div class="profile-placeholder" style="display:none">
+                                <i class="fas fa-user"></i>
+                            </div>
+                        </div>
+                        <h3>Sarah Coder</h3>
+                        <p class="developer-title">Full Stack Developer</p>
+                    </div>
+                    <div class="developer-body">
+                        <p class="developer-location">
+                            <i class="fas fa-location-dot"></i> London, UK
+                        </p>
+                        <div class="skills-list">
+                            <span class="skill-tag">JavaScript</span>
+                            <span class="skill-tag">Vue.js</span>
+                            <span class="skill-tag">Node.js</span>
+                        </div>
+                    </div>
+                    <div class="developer-footer">
+                        <a href="#" class="view-profile">View Portfolio</a>
+                    </div>
+                </div>
+                <!-- Developer Card 4 -->
+                <div class="developer-card" data-skills="javascript,vue,node" data-location="London">
+                    <div class="developer-header">
+                        <div class="profile-image">
+                            <img src="/media/profile_pics/person2.jpeg" alt="Profile" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+                            <div class="profile-placeholder" style="display:none">
+                                <i class="fas fa-user"></i>
+                            </div>
+                        </div>
+                        <h3>Sarah Coder</h3>
+                        <p class="developer-title">Frontend Developer</p>
+                    </div>
+                    <div class="developer-body">
+                        <p class="developer-location">
+                            <i class="fas fa-location-dot"></i> London, UK
+                        </p>
+                        <div class="skills-list">
+                            <span class="skill-tag">JavaScript</span>
+                            <span class="skill-tag">Vue.js</span>
+                            <span class="skill-tag">Node.js</span>
+                        </div>
+                    </div>
+                    <div class="developer-footer">
+                        <a href="#" class="view-profile">View Portfolio</a>
+                    </div>
+                </div>
+                <!-- Developer Card 5 -->
+                <div class="developer-card" data-skills="javascript,vue,node" data-location="London">
+                    <div class="developer-header">
+                        <div class="profile-image">
+                            <img src="/media/profile_pics/person2.jpeg" alt="Profile" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+                            <div class="profile-placeholder" style="display:none">
+                                <i class="fas fa-user"></i>
+                            </div>
+                        </div>
+                        <h3>Sarah Coder</h3>
+                        <p class="developer-title">Frontend Developer</p>
+                    </div>
+                    <div class="developer-body">
+                        <p class="developer-location">
+                            <i class="fas fa-location-dot"></i> London, UK
+                        </p>
+                        <div class="skills-list">
+                            <span class="skill-tag">JavaScript</span>
+                            <span class="skill-tag">Vue.js</span>
+                            <span class="skill-tag">Node.js</span>
+                        </div>
+                    </div>
+                    <div class="developer-footer">
+                        <a href="#" class="view-profile">View Portfolio</a>
+                    </div>
+                </div>
+                <!-- Developer Card 6 -->
+                <div class="developer-card" data-skills="python,django,react" data-location="New York">
+                    <div class="developer-header">
+                        <div class="profile-image">
+                            <img src="/media/profile_pics/person1.jpeg" alt="Profile" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+                            <div class="profile-placeholder" style="display:none">
+                                <i class="fas fa-user"></i>
+                            </div>
+                        </div>
+                        <h3>John Developer</h3>
+                        <p class="developer-title">UI/UX</p>
+                    </div>
+                    <div class="developer-body">
+                        <p class="developer-location">
+                            <i class="fas fa-location-dot"></i> New York, USA
+                        </p>
+                        <div class="skills-list">
+                            <span class="skill-tag">Python</span>
+                            <span class="skill-tag">Figma</span>
+                            <span class="skill-tag">React</span>
+                        </div>
+                    </div>
+                    <div class="developer-footer">
+                        <a href="#" class="view-profile">View Portfolio</a>
+                    </div>
+
+
+            </div>
+            
+        </section>
+    </main>
+
+    <!-- Add Search Functionality -->
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const searchInput = document.getElementById('searchInput');
+        const cards = document.querySelectorAll('.developer-card');
+
+        searchInput.addEventListener('input', function(e) {
+            const searchTerm = e.target.value.toLowerCase();
+            
+            cards.forEach(card => {
+                const skills = card.dataset.skills.toLowerCase();
+                const location = card.dataset.location.toLowerCase();
+                const name = card.querySelector('h3').textContent.toLowerCase();
+                const title = card.querySelector('.developer-title').textContent.toLowerCase();
+                
+                if (skills.includes(searchTerm) || 
+                    location.includes(searchTerm) || 
+                    name.includes(searchTerm) || 
+                    title.includes(searchTerm)) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        });
+    });
+    </script>
+</body>
+</html>

@@ -1,0 +1,60 @@
+/* Root Variables */
+:root {
+    --bg-dark: #111214;
+    --bg-container: #18191c;
+    --bg-input: #23242a;
+    --bg-input-focus: #23272f;
+    --color-primary: #2e8bff;
+    --color-text: #fff;
+    --color-text-muted: #b2becd;
+    --border-radius-lg: 18px;
+    --border-radius-md: 8px;
+    --box-shadow: 0 8px 40px rgba(0,0,0,0.7);
+}
+
+/* Reset and Global Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: var(--bg-dark);
+    color: var(--color-text);
+    line-height: 1.6;
+}
+
+/* Common Form Elements */
+.form-input {
+    width: 100%;
+    padding: 0.8rem 1rem;
+    background: var(--bg-input);
+    border: 1.5px solid var(--bg-input);
+    border-radius: var(--border-radius-md);
+    color: var(--color-text);
+    font-size: 1rem;
+    transition: all 0.2s ease;
+}
+
+.form-input:focus {
+    border-color: var(--color-primary);
+    background: var(--bg-input-focus);
+    outline: none;
+}
+
+/* Common Button Styles */
+.btn-primary {
+    background: linear-gradient(90deg, var(--color-primary) 0%, #005bea 100%);
+    color: var(--color-text);
+    border: none;
+    border-radius: var(--border-radius-md);
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+}

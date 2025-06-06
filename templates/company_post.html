@@ -1,0 +1,536 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Post Project - DevConnect</title>
+    <link rel="stylesheet" href="{% static 'css/company_post.css' %}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-container">
+            <a href="../../" class="logo">
+                Dev<span>Connect</span>
+            </a>
+            <nav class="nav-links">
+                <a href="../../">Home</a>
+                <a href="{% url 'myportfolio:company_profile' %}">Dashboard</a>
+                
+            </nav>
+        </div>
+    </header>
+
+    <div class="post-container">
+        <h1>Post a New Project</h1>
+        <p class="post-subtitle">Share your project details to find the perfect developer</p>
+
+        <form method="POST" class="post-form" enctype="multipart/form-data" id="projectForm">
+            {% csrf_token %}
+            
+            <!-- Add this hidden input for project ID -->
+            <input type="hidden" name="project_id" id="project_id">
+            
+            <!-- Project Details Section -->
+            <div class="form-section">
+                <h2>Project Details</h2>
+                
+                <!-- Add this new form group for logo upload -->
+                <div class="form-group logo-upload">
+                    <label for="project_logo">Project Logo</label>
+                    <div class="logo-input-container">
+                        <div class="logo-preview" id="logoPreview">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                            <span>Drag & drop or click to upload</span>
+                        </div>
+                        <input 
+                            type="file" 
+                            id="project_logo" 
+                            name="project_logo" 
+                            accept="image/*"
+                            class="logo-input"
+                            onchange="handleLogoUpload(event)"
+                        >
+                        <button type="button" class="remove-logo-btn" id="removeLogo" style="display: none;">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    <p class="logo-help">Must be square image (1:1 ratio), recommended 400x400px, max 2MB</p>
+                </div>
+
+                <div class="form-group">
+                    <label for="project_title">Project Title</label>
+                    <input type="text" id="project_title" name="project_title" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="project_description">Project Description</label>
+                    <textarea id="project_description" name="project_description" rows="4" required></textarea>
+                </div>
+
+                <div class="form-group budget-group">
+                    <label>Project Budget (USD)</label>
+                    <div class="budget-inputs">
+                        <div class="budget-input">
+                            <label for="min_budget">Minimum</label>
+                            <input 
+                                type="number" 
+                                id="min_budget" 
+                                name="min_budget" 
+                                min="10000" 
+                                step="500" 
+                                required 
+                                oninput="this.value = Math.round(this.value / 500) * 500"
+                            >
+                        </div>
+                        <div class="budget-input">
+                            <label for="max_budget">Maximum</label>
+                            <input 
+                                type="number" 
+                                id="max_budget" 
+                                name="max_budget" 
+                                min="10000" 
+                                step="500" 
+                                required
+                                oninput="this.value = Math.round(this.value / 500) * 500"
+                            >
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Technical Requirements Section -->
+            <div class="form-section">
+                <h2>Technical Requirements</h2>
+                
+                <!-- Technologies -->
+                <div class="form-group">
+                    <label>Technologies Required</label>
+                    <div class="tech-categories">
+                        <div class="tech-category">
+                            <h3>Frontend</h3>
+                            <div class="tech-options" data-category="frontend">
+                                <label><input type="checkbox" name="tech" value="React"> React</label>
+                                <label><input type="checkbox" name="tech" value="Angular"> Angular</label>
+                                <label><input type="checkbox" name="tech" value="Vue"> Vue.js</label>
+                                <label><input type="checkbox" name="tech" value="HTML"> HTML5</label>
+                                <label><input type="checkbox" name="tech" value="CSS"> CSS3</label>
+                            </div>
+                        </div>
+                        
+                        <div class="tech-category">
+                            <h3>Backend</h3>
+                            <div class="tech-options" data-category="backend">
+                                <label><input type="checkbox" name="tech" value="Node"> Node.js</label>
+                                <label><input type="checkbox" name="tech" value="Python"> Python</label>
+                                <label><input type="checkbox" name="tech" value="Java"> Java</label>
+                                <label><input type="checkbox" name="tech" value="PHP"> PHP</label>
+                                <label><input type="checkbox" name="tech" value="Ruby"> Ruby</label>
+                            </div>
+                        </div>
+
+                        <div class="tech-category">
+                            <h3>Database</h3>
+                            <div class="tech-options" data-category="database">
+                                <label><input type="checkbox" name="tech" value="MySQL"> MySQL</label>
+                                <label><input type="checkbox" name="tech" value="MongoDB"> MongoDB</label>
+                                <label><input type="checkbox" name="tech" value="PostgreSQL"> PostgreSQL</label>
+                                <label><input type="checkbox" name="tech" value="Redis"> Redis</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Custom Technology Input -->
+                    <div class="custom-tech-input">
+                        <input type="text" id="custom_tech" placeholder="Add custom technology">
+                        <button type="button" id="add_tech" class="btn btn-outline">Add</button>
+                    </div>
+                    
+                    <!-- Selected Technologies Display -->
+                    <div class="selected-technologies" id="selectedTechs"></div>
+                    <input type="hidden" name="technologies" id="technologies">
+                </div>
+
+                <div class="form-group">
+                    <label for="experience_level">Required Experience Level</label>
+                    <select id="experience_level" name="experience_level" required>
+                        <option value="">Select Experience Level</option>
+                        <option value="entry">Entry Level (0-2 years)</option>
+                        <option value="intermediate">Intermediate (2-5 years)</option>
+                        <option value="senior">Senior (5+ years)</option>
+                        <option value="expert">Expert/Lead (8+ years)</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="project_type">Project Type</label>
+                    <select id="project_type" name="project_type" required>
+                        <option value="">Select Project Type</option>
+                        <option value="full_time">Full-time</option>
+                        <option value="part_time">Part-time</option>
+                        <option value="contract">Contract</option>
+                        <option value="freelance">Freelance</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Additional Information Section -->
+            <div class="form-section">
+                <h2>Additional Information</h2>
+
+                <div class="form-group">
+                    <label for="additional_notes">Additional Notes</label>
+                    <textarea id="additional_notes" name="additional_notes" rows="3"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox" name="remote_work" id="remote_work">
+                        <span>This project allows remote work</span>
+                    </label>
+                </div>
+            </div>
+
+            {% if messages %}
+            <div class="messages">
+                {% for message in messages %}
+                    <div class="message {{ message.tags }}">{{ message }}</div>
+                {% endfor %}
+            </div>
+            {% endif %}
+
+            <div class="form-actions">
+                <button type="button" class="btn btn-outline" onclick="window.history.back()">Cancel</button>
+                <!-- Update the submit button to be context-aware -->
+                <button type="submit" class="submit-btn">
+                    <i class="fas fa-save"></i>
+                    <span id="submitBtnText">Post Project</span>
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        // Handle custom technology input
+        const customTechInput = document.getElementById('custom_tech');
+        const addTechBtn = document.getElementById('add_tech');
+        const selectedTechsContainer = document.getElementById('selectedTechs');
+        const technologiesInput = document.getElementById('technologies');
+        let selectedTechs = new Set();
+
+        // Handle checkbox changes
+        document.querySelectorAll('input[name="tech"]').forEach(checkbox => {
+            checkbox.addEventListener('change', function() {
+                if (this.checked) {
+                    selectedTechs.add(this.value);
+                } else {
+                    selectedTechs.delete(this.value);
+                }
+                updateSelectedTechs();
+            });
+        });
+
+        // Handle custom technology addition
+        addTechBtn.addEventListener('click', function() {
+            const techName = customTechInput.value.trim();
+            if (techName) {
+                selectedTechs.add(techName);
+                updateSelectedTechs();
+                customTechInput.value = '';
+            }
+        });
+
+        function updateSelectedTechs() {
+            const techsArray = Array.from(selectedTechs);
+            selectedTechsContainer.innerHTML = techsArray.map(tech => `
+                <span class="tech-tag">
+                    ${tech}
+                    <i class="fas fa-times" onclick="removeTech('${tech}')"></i>
+                </span>
+            `).join('');
+            technologiesInput.value = JSON.stringify(techsArray);
+        }
+
+        function removeTech(tech) {
+            selectedTechs.delete(tech);
+            const checkbox = document.querySelector(`input[name="tech"][value="${tech}"]`);
+            if (checkbox) checkbox.checked = false;
+            updateSelectedTechs();
+        }
+
+        // Budget validation
+        const minBudget = document.getElementById('min_budget');
+        const maxBudget = document.getElementById('max_budget');
+        const MINIMUM_BUDGET = 10000; // Set minimum budget threshold to $500
+
+        minBudget.addEventListener('change', validateBudget);
+        maxBudget.addEventListener('change', validateBudget);
+
+        function validateBudget() {
+            const min = parseInt(minBudget.value);
+            const max = parseInt(maxBudget.value);
+            
+            // Validate minimum budget threshold
+            if (min < MINIMUM_BUDGET) {
+                minBudget.setCustomValidity(`Minimum budget must be at least $${MINIMUM_BUDGET}`);
+                return;
+            } else {
+                minBudget.setCustomValidity('');
+            }
+            
+            // Validate max budget is greater than min budget
+            if (min && max && min > max) {
+                maxBudget.setCustomValidity('Maximum budget must be greater than minimum budget');
+            } else {
+                maxBudget.setCustomValidity('');
+            }
+        }
+
+        // Add this to show the minimum requirement in the label
+        document.querySelector('label[for="min_budget"]').innerHTML += ` (min. $${MINIMUM_BUDGET})`;
+
+        // Logo upload handling
+        const logoInput = document.getElementById('project_logo');
+        const logoPreview = document.getElementById('logoPreview');
+        const removeLogoBtn = document.getElementById('removeLogo');
+
+        // Replace the handleLogoUpload function with this updated version
+        function handleLogoUpload(event) {
+            const file = event.target.files[0];
+            if (file) {
+                // Validate file size (2MB max)
+                if (file.size > 2 * 1024 * 1024) {
+                    alert('File size must be less than 2MB');
+                    event.target.value = '';
+                    return;
+                }
+
+                // Validate file type
+                if (!file.type.startsWith('image/')) {
+                    alert('Please upload an image file');
+                    event.target.value = '';
+                    return;
+                }
+
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const img = new Image();
+                    img.onload = function() {
+                        // Create canvas for resizing
+                        const canvas = document.createElement('canvas');
+                        const ctx = canvas.getContext('2d');
+                        const targetSize = 400; // Target size for the square image
+
+                        // Calculate the smaller dimension to crop from center
+                        const size = Math.min(img.width, img.height);
+                        const x = (img.width - size) / 2;
+                        const y = (img.height - size) / 2;
+
+                        // Set canvas to desired dimensions
+                        canvas.width = targetSize;
+                        canvas.height = targetSize;
+
+                        // Draw and resize image
+                        ctx.fillStyle = '#ffffff';
+                        ctx.fillRect(0, 0, targetSize, targetSize);
+                        ctx.drawImage(
+                            img,
+                            x, y,     // Start position for crop
+                            size, size,   // Size of crop
+                            0, 0,         // Place on canvas
+                            targetSize, targetSize  // Target size
+                        );
+
+                        // Convert to file and update preview
+                        canvas.toBlob((blob) => {
+                            // Create new file from blob
+                            const resizedFile = new File([blob], file.name, {
+                                type: 'image/jpeg',
+                                lastModified: new Date().getTime()
+                            });
+
+                            // Update the file input with the new resized file
+                            const dataTransfer = new DataTransfer();
+                            dataTransfer.items.add(resizedFile);
+                            logoInput.files = dataTransfer.files;
+
+                            // Update preview
+                            logoPreview.innerHTML = `<img src="${canvas.toDataURL('image/jpeg')}" alt="Project Logo">`;
+                            removeLogoBtn.style.display = 'flex';
+                        }, 'image/jpeg', 0.9);
+                    };
+                    img.src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        // Update the drop event handler to match the new functionality
+        logoPreview.addEventListener('drop', (e) => {
+            e.preventDefault();
+            logoPreview.classList.remove('dragover');
+            
+            const file = e.dataTransfer.files[0];
+            if (file) {
+                logoInput.files = e.dataTransfer.files;
+                handleLogoUpload({ target: { files: [file] } });
+            }
+        });
+
+        // Add loading state indicator
+        function showLoading() {
+            logoPreview.innerHTML = `
+                <div class="loading-spinner">
+                    <i class="fas fa-spinner fa-spin"></i>
+                    <span>Processing image...</span>
+                </div>
+            `;
+        }
+        // Handle remove logo
+        removeLogoBtn.addEventListener('click', function() {
+            logoInput.value = '';
+            logoPreview.innerHTML = `
+                <i class="fas fa-cloud-upload-alt"></i>
+                <span>Drag & drop or click to upload</span>
+            `;
+            removeLogoBtn.style.display = 'none';
+        });
+
+        // Drag and drop handling
+        logoPreview.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            logoPreview.classList.add('dragover');
+        });
+
+        logoPreview.addEventListener('dragleave', () => {
+            logoPreview.classList.remove('dragover');
+        });
+
+        logoPreview.addEventListener('drop', (e) => {
+            e.preventDefault();
+            logoPreview.classList.remove('dragover');
+            
+            const file = e.dataTransfer.files[0];
+            if (file) {
+                logoInput.files = e.dataTransfer.files;
+                handleLogoUpload({ target: { files: [file] } });
+            }
+        });
+
+        document.getElementById('projectForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            try {
+                const formData = new FormData(this);
+                
+                // Add technologies as JSON string
+                const techsArray = Array.from(selectedTechs);
+                formData.set('technologies', JSON.stringify(techsArray));
+
+                // Show loading state
+                const submitBtn = this.querySelector('.submit-btn');
+                submitBtn.disabled = true;
+                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Posting...';
+
+                const response = await fetch(this.action, {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'X-CSRFToken': formData.get('csrfmiddlewaretoken')
+                    }
+                });
+
+                const data = await response.json();
+
+                if (data.status === 'success') {
+                    // Show success message
+                    const messagesDiv = document.querySelector('.messages') || 
+                                      document.createElement('div');
+                    messagesDiv.className = 'messages';
+                    messagesDiv.innerHTML = `
+                        <div class="message success">
+                            <i class="fas fa-check-circle"></i>
+                            ${data.message}
+                        </div>
+                    `;
+
+                    if (!document.querySelector('.messages')) {
+                        this.insertBefore(messagesDiv, this.querySelector('.form-actions'));
+                    }
+
+                    // Redirect after a short delay
+                    setTimeout(() => {
+                        window.location.href = data.redirect_url;
+                    }, 1500);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                // Show error message
+                const messagesDiv = document.querySelector('.messages') || 
+                                  document.createElement('div');
+                messagesDiv.className = 'messages';
+                messagesDiv.innerHTML = `
+                    <div class="message error">
+                        <i class="fas fa-exclamation-circle"></i>
+                        An error occurred. Please try again.
+                    </div>
+                `;
+
+                if (!document.querySelector('.messages')) {
+                    this.insertBefore(messagesDiv, this.querySelector('.form-actions'));
+                }
+
+                // Reset submit button
+                const submitBtn = this.querySelector('.submit-btn');
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Post Project';
+            }
+        });
+
+        // Check for edit mode on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const editId = urlParams.get('edit');
+            
+            if (editId) {
+                const editData = sessionStorage.getItem('editProject');
+                if (editData) {
+                    const projectData = JSON.parse(editData);
+                    
+                    // Set project ID
+                    document.getElementById('project_id').value = projectData.id;
+                    
+                    // Fill form fields
+                    document.getElementById('project_title').value = projectData.title;
+                    document.getElementById('project_description').value = projectData.description;
+                    document.getElementById('min_budget').value = projectData.min_budget;
+                    document.getElementById('max_budget').value = projectData.max_budget;
+                    document.getElementById('project_type').value = projectData.project_type;
+                    document.getElementById('experience_level').value = projectData.experience_level;
+                    document.getElementById('remote_work').checked = projectData.remote_work;
+                    
+                    // Set technologies
+                    const techCheckboxes = document.querySelectorAll('input[name="tech"]');
+                    techCheckboxes.forEach(checkbox => {
+                        checkbox.checked = projectData.technologies.includes(checkbox.value);
+                    });
+                    
+                    // Update form title
+                    document.querySelector('h1').textContent = 'Edit Project';
+                    document.querySelector('.post-subtitle').textContent = 'Update your project details';
+                    
+                    // Clear session storage
+                    sessionStorage.removeItem('editProject');
+                }
+            }
+        });
+
+        // Update button text if editing
+        if (new URLSearchParams(window.location.search).get('edit')) {
+            document.getElementById('submitBtnText').textContent = 'Update Project';
+        }
+    </script>
+</body>
+</html>

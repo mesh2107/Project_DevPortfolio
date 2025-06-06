@@ -1,0 +1,45 @@
+@import 'base.css';
+
+/* Navigation */
+.main-nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem 4rem;
+    background: rgba(24, 25, 28, 0.8);
+    backdrop-filter: blur(10px);
+    z-index: 1000;
+}
+
+/* Hero Section */
+.hero-section {
+    min-height: calc(100vh - 80px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 4rem 2rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Developers Grid */
+.developers-section {
+    padding: 4rem 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Search Section */
+.search-section {
+    max-width: 600px;
+    margin: 0 auto 60px;
+    position: relative;
+}
+
+/* ... rest of home-specific styles ... */

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up</title>
+<link rel="stylesheet" href="/static/styles.css">    
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="auth-container">
+        <div class="auth-logo"></div>
+        <h1 class="auth-title">Create Account</h1>
+        <div class="auth-subtext">
+            Already have an account? <a href="../login">Login</a>
+        </div>
+        <form action="" method="post">
+            {% csrf_token %}
+            <!-- Username Input -->
+            <div class="input-group">
+                <input 
+                    type="text" 
+                    name="username" 
+                    placeholder="Username" 
+                    autocomplete="username"
+                    required
+                >
+            </div>
+            
+            <!-- Email Input -->
+            <div class="input-group">
+                <input 
+                    type="email" 
+                    name="email" 
+                    placeholder="Email address"
+                    autocomplete="email"
+                    required
+                >
+            </div>
+            
+            <!-- Password Input -->
+            <div class="input-group">
+                <input 
+                    type="password" 
+                    name="password1" 
+                    placeholder="Password"
+                    autocomplete="new-password"
+                    required
+                >
+            </div>
+            
+            <!-- Confirm Password Input -->
+            <div class="input-group">
+                <input 
+                    type="password" 
+                    name="password2" 
+                    placeholder="Confirm Password"
+                    autocomplete="new-password"
+                    required
+                >
+            </div>
+            <button type="submit">Sign Up</button>
+        </form>
+        <div class="divider">or</div>
+        <div class="social-login">
+            <button class="social-btn" type="button"><i class="fab fa-apple"></i></button>
+            <button class="social-btn" type="button"><i class="fab fa-google"></i></button>
+            <button class="social-btn" type="button"><i class="fa-solid fa-x"></i></button>
+        </div>
+    </div>
+</body>
+</html>

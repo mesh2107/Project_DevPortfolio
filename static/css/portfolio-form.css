@@ -1,0 +1,23 @@
+@import 'base.css';
+
+/* Portfolio Container */
+.portfolio-container {
+    background: var(--bg-container);
+    border-radius: var(--border-radius-lg);
+    box-shadow: var(--box-shadow);
+    padding: 38px 32px;
+    width: 100%;
+    max-width: 800px;
+    margin: 40px auto;
+}
+
+/* Form Sections */
+.portfolio-fieldset {
+    border: 1.5px solid var(--bg-input);
+    border-radius: 10px;
+    padding: 24px;
+    margin-bottom: 20px;
+    background: #202126;
+}
+
+/* ... rest of portfolio-form-specific styles ... */

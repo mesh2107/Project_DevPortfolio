@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Portfolio</title>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+    <div class="portfolio-container">
+        <h1 class="portfolio-title">Create Your Portfolio</h1>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.non_field_errors }}
+            
+            <!-- Personal Information -->
+            <fieldset class="portfolio-fieldset">
+                <legend class="portfolio-legend">Personal Information</legend>
+                
+                <div class="personal-info-grid">
+                    <!-- Full Name -->
+                    <div class="form-group">
+                        {{ form.full_name.errors }}
+                        <label for="{{ form.full_name.id_for_label }}">Full Name</label>
+                        <input type="text" 
+                               id="{{ form.full_name.id_for_label }}"
+                               name="full_name"
+                               class="form-input"
+                               placeholder="Enter your full name"
+                               value="{{ form.full_name.value|default:'' }}"
+                               required>
+                        <small class="field-hint">Enter your name as you'd like it to appear</small>
+                    </div>
+
+                    <!-- Profile Picture -->
+                    <div class="form-group profile-upload">
+                        {{ form.profile_picture.errors }}
+                        <div class="profile-preview">
+                            {% if form.profile_picture.value %}
+                                <img src="{{ form.profile_picture.value.url }}" alt="Profile Preview" id="profilePreview">
+                            {% else %}
+                                <i class="fas fa-user"></i>
+                            {% endif %}
+                        </div>
+                        <label class="upload-btn">
+                            <i class="fas fa-camera"></i> Upload Photo
+                            <input type="file"
+                                   id="{{ form.profile_picture.id_for_label }}"
+                                   name="profile_picture"
+                                   accept="image/*"
+                                   class="hidden-input"
+                                   onchange="previewImage(this)">
+                        </label>
+                        <small class="field-hint">Recommended: Square image, at least 400x400px</small>
+                    </div>
+
+                    <!-- Tagline -->
+                    <div class="form-group full-width">
+                        {{ form.tagline.errors }}
+                        <label for="{{ form.tagline.id_for_label }}">Professional Tagline</label>
+                        <input type="text"
+                               id="{{ form.tagline.id_for_label }}"
+                               name="tagline"
+                               class="form-input"
+                               placeholder="e.g., Full Stack Developer specializing in Django"
+                               value="{{ form.tagline.value|default:'' }}">
+                        <small class="field-hint">A brief one-liner about your role</small>
+                    </div>
+
+                    <!-- About Me -->
+                    <div class="form-group full-width">
+                        {{ form.about_me.errors }}
+                        <label for="{{ form.about_me.id_for_label }}">About Me</label>
+                        <textarea id="{{ form.about_me.id_for_label }}"
+                                  name="about_me"
+                                  class="form-input"
+                                  rows="5"
+                                  placeholder="Write a brief introduction about yourself, your experience, and what you're passionate about">{{ form.about_me.value|default:'' }}</textarea>
+                        <small class="field-hint">Aim for 150-300 words for the best impact</small>
+                    </div>
+
+                    <!-- Location -->
+                    <div class="form-group">
+                        {{ form.location.errors }}
+                        <label for="{{ form.location.id_for_label }}">Location</label>
+                        <input type="text"
+                               id="{{ form.location.id_for_label }}"
+                               name="location"
+                               class="form-input"
+                               placeholder="City, Country"
+                               value="{{ form.location.value|default:'' }}">
+                        <small class="field-hint">e.g., London, UK</small>
+                    </div>
+
+                    <!-- Resume Upload -->
+                    <div class="form-group">
+                        {{ form.resume.errors }}
+                        <label for="{{ form.resume.id_for_label }}">Resume/CV</label>
+                        <div class="file-upload-container">
+                            <label class="upload-btn file-upload">
+                                <i class="fas fa-file-pdf"></i> 
+                                <span id="fileName">Upload Resume</span>
+                                <input type="file"
+                                       id="{{ form.resume.id_for_label }}"
+                                       name="resume"
+                                       accept=".pdf,.doc,.docx"
+                                       class="hidden-input"
+                                       onchange="updateFileName(this)">
+                            </label>
+                            {% if form.resume.value %}
+                                <div class="current-file">
+                                    Current file: <span class="file-name">{{ form.resume.value }}</span>
+                                </div>
+                            {% endif %}
+                        </div>
+                        <small class="field-hint">PDF format preferred (max 5MB)</small>
+                    </div>
+                </div>
+            </fieldset>
+
+            <!-- Skills & Technologies -->
+            <fieldset>
+                <legend>Skills & Technologies</legend>
+                <div id="skills-list">
+                    <div class="skill-entry">
+                        <input type="text" name="skill_name[]" placeholder="Skill Name">
+                        <select name="proficiency[]">
+                            <option>Beginner</option>
+                            <option>Intermediate</option>
+                            <option>Expert</option>
+                        </select>
+                        <input type="text" name="years_experience[]" placeholder="Years of Experience">
+                        <input type="text" name="skill_category[]" placeholder="Category">
+                    </div>
+                </div>
+                <!-- Add JS for dynamic skill fields if needed -->
+            </fieldset>
+
+            <!-- Projects -->
+            <fieldset>
+                <legend>Projects</legend>
+                <div id="projects-list">
+                    <div class="project-entry">
+                        <input type="text" name="project_title[]" placeholder="Project Title">
+                        <textarea name="project_description[]" placeholder="Short Description"></textarea>
+                        <input type="text" name="technologies_used[]" placeholder="Technologies Used">
+                        <input type="url" name="github_link[]" placeholder="GitHub Repository Link">
+                        <input type="url" name="live_demo[]" placeholder="Live Demo Link">
+                        <input type="file" name="project_image[]" accept="image/*">
+                        <input type="text" name="project_category[]" placeholder="Project Category">
+                        <button type="button" class="remove-project" onclick="removeProject(this)" style="margin-top:8px; background:#2e2e2e; color:#fff; border:none; border-radius:5px; padding:6px 12px; cursor:pointer;">Remove</button>
+                    </div>
+                </div>
+                <button type="button" id="add-project-btn" style="margin-top:12px; background:#2e8bff; color:#fff; border:none; border-radius:5px; padding:8px 16px; cursor:pointer;">Add Another Project</button>
+            </fieldset>
+
+            <!-- Work Experience (Optional) -->
+            <fieldset>
+                <legend>Work Experience (Optional)</legend>
+                <div id="work-list">
+                    <div class="work-entry">
+                        <input type="text" name="job_title[]" placeholder="Job Title">
+                        <input type="text" name="company_name[]" placeholder="Company Name">
+                        <input type="text" name="duration[]" placeholder="Duration">
+                        <textarea name="job_description[]" placeholder="Description / Responsibilities"></textarea>
+                    </div>
+                </div>
+            </fieldset>
+
+            <!-- Education -->
+            <fieldset>
+                <legend>Education</legend>
+                <div id="education-list">
+                    <div class="education-entry">
+                        <input type="text" name="degree_name[]" placeholder="Degree Name">
+                        <input type="text" name="institution_name[]" placeholder="Institution Name">
+                        <input type="text" name="education_duration[]" placeholder="Start Year – End Year">
+                        <input type="text" name="cgpa[]" placeholder="CGPA / Grade">
+                    </div>
+                </div>
+            </fieldset>
+
+            <!-- Blog Posts (Optional) -->
+            <fieldset>
+                <legend>Blog Posts (Optional)</legend>
+                <div id="blog-list">
+                    <div class="blog-entry">
+                        <input type="text" name="blog_title[]" placeholder="Blog Title">
+                        <input type="text" name="blog_tags[]" placeholder="Tags / Categories">
+                        <input type="date" name="blog_date[]">
+                        <textarea name="blog_summary[]" placeholder="Summary / Excerpt"></textarea>
+                        <textarea name="blog_content[]" placeholder="Full Content"></textarea>
+                    </div>
+                </div>
+            </fieldset>
+
+            <!-- Social Media Links -->
+            <fieldset>
+                <legend>Social Media Links</legend>
+                <input type="url" name="linkedin" placeholder="LinkedIn Profile URL">
+                <input type="url" name="github" placeholder="GitHub Profile URL">
+                <input type="url" name="twitter" placeholder="Twitter (optional)">
+                <input type="url" name="website" placeholder="Personal Website / Blog">
+            </fieldset>
+
+            <!-- Contact Information -->
+            <fieldset>
+                <legend>Contact Information</legend>
+                <input type="email" name="email" placeholder="Email Address" required>
+                <input type="text" name="phone" placeholder="Phone Number (optional)">
+            </fieldset>
+
+            <button type="submit">Create Portfolio</button>
+        </form>
+    </div>
+
+    <script>
+document.addEventListener('DOMContentLoaded', function() {
+    const projectsList = document.getElementById('projects-list');
+    const addProjectBtn = document.getElementById('add-project-btn');
+
+    addProjectBtn.addEventListener('click', function() {
+        // Clone the first project-entry
+        const firstEntry = projectsList.querySelector('.project-entry');
+        const newEntry = firstEntry.cloneNode(true);
+
+        // Clear input values in the cloned entry
+        newEntry.querySelectorAll('input, textarea').forEach(input => {
+            if (input.type === 'file') {
+                input.value = '';
+            } else {
+                input.value = '';
+            }
+        });
+
+        projectsList.appendChild(newEntry);
+    });
+});
+
+function removeProject(btn) {
+    const projectsList = document.getElementById('projects-list');
+    if (projectsList.children.length > 1) {
+        btn.parentElement.remove();
+    }
+}
+
+function previewImage(input) {
+    if (input.files && input.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const preview = document.getElementById('profilePreview');
+            if (!preview) {
+                const img = document.createElement('img');
+                img.id = 'profilePreview';
+                img.src = e.target.result;
+                const previewContainer = input.closest('.profile-upload').querySelector('.profile-preview');
+                previewContainer.innerHTML = '';
+                previewContainer.appendChild(img);
+            } else {
+                preview.src = e.target.result;
+            }
+        }
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+
+function updateFileName(input) {
+    const fileNameSpan = document.getElementById('fileName');
+    if (input.files && input.files[0]) {
+        fileNameSpan.textContent = input.files[0].name;
+    } else {
+        fileNameSpan.textContent = 'Upload Resume';
+    }
+}
+</script>
+</body>
+</html>
